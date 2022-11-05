@@ -37,22 +37,36 @@ nameInput.addEventListener('input', e =>{
     typingTimer2 = setTimeout(()=>{
         displayError(e.target.id)
     },typingTimerInterval)
-
-
-
-
 });
 emailInput.addEventListener('input', e =>{
-    ValidationCheck(e.target.id)
-    displayError(e.target.id)
+    clearTimeout(typingTimer2);
+    clearTimeout(typingTimer);
+    typingTimer = setTimeout(()=>{
+        ValidationCheck(e.target.id)
+    },typingTimerInterval)
+    typingTimer2 = setTimeout(()=>{
+        displayError(e.target.id)
+    },typingTimerInterval)
 });
 passwordInput.addEventListener('input', e =>{
-    ValidationCheck(e.target.id)
-    displayError(e.target.id)
+    clearTimeout(typingTimer2);
+    clearTimeout(typingTimer);
+    typingTimer = setTimeout(()=>{
+        ValidationCheck(e.target.id)
+    },typingTimerInterval)
+    typingTimer2 = setTimeout(()=>{
+        displayError(e.target.id)
+    },typingTimerInterval)
 });
 numberInput.addEventListener('input', e =>{
-    ValidationCheck(e.target.id)
-    displayError(e.target.id)
+    clearTimeout(typingTimer2);
+    clearTimeout(typingTimer);
+    typingTimer = setTimeout(()=>{
+        ValidationCheck(e.target.id)
+    },typingTimerInterval)
+    typingTimer2 = setTimeout(()=>{
+        displayError(e.target.id)
+    },typingTimerInterval)
 });
 
 
@@ -97,7 +111,6 @@ function ValidationCheck(fieldString) {
         field.setCustomValidity('invalid')//field is now invalid
         field.classList.add('invalid')
     };
-
 };
 
 function displayError (fieldString) {
