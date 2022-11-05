@@ -169,8 +169,13 @@ input:focus::placeholder {
 }
 
 button.create-button {
-    background-color: var(--gray);
+    cursor: pointer;
     font-weight: 800;
+    background-color: white;
+}
+
+button.create-button:disabled {
+    background-color: var(--gray);
     border-radius: 50px; ;
     color: black;
     font-size: 1rem;
