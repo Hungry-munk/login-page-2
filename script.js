@@ -21,52 +21,42 @@ const passwordErrorMessage = "must have a digit, special character and be betwee
     email: [emailInput, EMAIL_REGEX, emailErrorMessage],
     number: [number, MELBOURNE_PHONE_REGEX, numberErrorMessage],
     password: [passwordInput, PASSWORD_REGEX, passwordErrorMessage],
-    passwordConformation: [passwordConformationInput, PASSWORD_REGEX],
+    "password-conformation": [passwordConformationInput, PASSWORD_REGEX],
 }
 
 let typingTimer;
 let typingTimer2;
+let tpyingTimerPassword;
 let typingTimerInterval = 1000
 
 nameInput.addEventListener('input', e =>{
     clearTimeout(typingTimer2);
     clearTimeout(typingTimer);
-    typingTimer = setTimeout(()=>{
-        ValidationCheck(e.target.id)
-    },typingTimerInterval)
-    typingTimer2 = setTimeout(()=>{
-        displayError(e.target.id)
-    },typingTimerInterval)
+    typingTimer = setTimeout(()=>ValidationCheck(e.target.id), typingTimerInterval)
+    typingTimer2 = setTimeout(()=>displayError(e.target.id), typingTimerInterval)
 });
 emailInput.addEventListener('input', e =>{
     clearTimeout(typingTimer2);
     clearTimeout(typingTimer);
-    typingTimer = setTimeout(()=>{
-        ValidationCheck(e.target.id)
-    },typingTimerInterval)
-    typingTimer2 = setTimeout(()=>{
-        displayError(e.target.id)
-    },typingTimerInterval)
-});
-passwordInput.addEventListener('input', e =>{
-    clearTimeout(typingTimer2);
-    clearTimeout(typingTimer);
-    typingTimer = setTimeout(()=>{
-        ValidationCheck(e.target.id)
-    },typingTimerInterval)
-    typingTimer2 = setTimeout(()=>{
-        displayError(e.target.id)
-    },typingTimerInterval)
+    typingTimer = setTimeout(()=>ValidationCheck(e.target.id), typingTimerInterval)
+    typingTimer2 = setTimeout(()=>displayError(e.target.id), typingTimerInterval)
 });
 numberInput.addEventListener('input', e =>{
     clearTimeout(typingTimer2);
     clearTimeout(typingTimer);
-    typingTimer = setTimeout(()=>{
-        ValidationCheck(e.target.id)
-    },typingTimerInterval)
-    typingTimer2 = setTimeout(()=>{
-        displayError(e.target.id)
-    },typingTimerInterval)
+    typingTimer = setTimeout(()=>ValidationCheck(e.target.id), typingTimerInterval)
+    typingTimer2 = setTimeout(()=>displayError(e.target.id), typingTimerInterval)
+});
+passwordInput.addEventListener('input', e =>{
+    clearTimeout(typingTimer2);
+    clearTimeout(typingTimer);
+    typingTimer = setTimeout(()=>ValidationCheck(e.target.id), typingTimerInterval)
+    typingTimer2 = setTimeout(()=>displayError(e.target.id), typingTimerInterval)
+
+    clearTimeout(tpyingTimerPassword)
+    tpyingTimerPassword = setTimeout(()=>{
+        toggleConfirmPassword()
+    },3000)
 });
 
 
@@ -76,18 +66,21 @@ nameInput.addEventListener("focusout", e =>{
     labelGray(e.target.id)
 });
 nameInput.addEventListener("focusin", e =>labelBlue(e.target.id))
+
 emailInput.addEventListener("focusout", e =>{
     ValidationCheck(e.target.id);
     displayError(e.target.id)
     labelGray(e.target.id)
 });
 emailInput.addEventListener("focusin", e =>labelBlue(e.target.id))
+
 numberInput.addEventListener("focusout", e =>{
     ValidationCheck(e.target.id);
     displayError(e.target.id)
     labelGray(e.target.id)
 });
 numberInput.addEventListener("focusin", e =>labelBlue(e.target.id))
+
 passwordInput.addEventListener("focusout", e =>{
     ValidationCheck(e.target.id);
     displayError(e.target.id)
@@ -140,3 +133,12 @@ function labelBlue (fieldString) {
     const label = document.querySelector(`#${field.id} ~ label`);
     if (field.validity.valid) label.style.color = "#1d9bf0"
 }
+
+function toggleConfirmPassword () {
+    if (passwordInput.validity.valid) {
+        passwordConformationInput.parentElement.style.display = 'block'
+    } else{
+        passwordConformationInput.parentElement.style.display = 'none'
+    }
+}
+

@@ -94,7 +94,7 @@ form {
 .details {
     display:flex;
     flex-direction: column;
-    padding:  0 80px;
+    padding: 0 min(80px, 15%);
     position: relative;
     /* padding: 15px; */
     /* gap: 10px; */
@@ -120,6 +120,11 @@ span.error-message {
 .password-conformation {
     /* will be activated when they enter valid password */
     display: none;
+    /* width: 100%; */
+}
+#password-conformation {
+    /* for some reason it doesnt work with the class varaiant */
+    width: 100%; 
 }
 
 
@@ -150,7 +155,7 @@ input:focus {
 
 input.invalid {
     border-color: var(--error-red);
-    
+
 }
 
 label {
