@@ -24,46 +24,64 @@ const passwordErrorMessage = "must have a digit, special character and be betwee
     passwordConformation: [passwordConformationInput, PASSWORD_REGEX],
 }
 
-let timer;
 let typingTimer;
 let typingTimer2;
 let typingTimerInterval = 1000
 
-nameInput.addEventListener('input', (e)=>{
-    delayedValidationCheck(e.target.id)
+nameInput.addEventListener('input', e =>{
+    clearTimeout(typingTimer2);
+    clearTimeout(typingTimer);
+    typingTimer = setTimeout(()=>{
+        ValidationCheck(e.target.id)
+    },typingTimerInterval)
+    typingTimer2 = setTimeout(()=>{
+        displayError(e.target.id)
+    },typingTimerInterval)
+
+
+
+
+});
+emailInput.addEventListener('input', e =>{
+    ValidationCheck(e.target.id)
     displayError(e.target.id)
 });
-emailInput.addEventListener('input', (e)=>{
-    delayedValidationCheck(e.target.id)
+passwordInput.addEventListener('input', e =>{
+    ValidationCheck(e.target.id)
     displayError(e.target.id)
 });
-passwordInput.addEventListener('input', (e)=>{
-    delayedValidationCheck(e.target.id)
+numberInput.addEventListener('input', e =>{
+    ValidationCheck(e.target.id)
     displayError(e.target.id)
 });
-numberInput.addEventListener('input', (e)=>{
-    delayedValidationCheck(e.target.id)
-    displayError(e.target.id)
-});
+
+
+nameInput.addEventListener("focusout", e =>labelGray(e.target.id))
+nameInput.addEventListener("focusin", e =>labelBlue(e.target.id))
+emailInput.addEventListener("focusout", e =>labelGray(e.target.id))
+emailInput.addEventListener("focusin", e =>labelBlue(e.target.id))
+numberInput.addEventListener("focusout", e =>labelGray(e.target.id))
+numberInput.addEventListener("focusin", e =>labelBlue(e.target.id))
+passwordInput.addEventListener("focusout", e =>labelGray(e.target.id))
+passwordInput.addEventListener("focusin", e =>labelBlue(e.target.id))
 
 
 function testValues (fieldValue,regex) {
     return regex.test(fieldValue)
 };
 
-function delayedValidationCheck(fieldString) {
+function ValidationCheck(fieldString) {
     clearTimeout(typingTimer);
     const field = fieldsPatterns[fieldString][0]
-    typingTimer = setTimeout(()=>{
-        if (testValues(field.value, fieldsPatterns[fieldString][1]) 
-            || (fieldString = "number" && !field.value)){ //becuase number is not manditory
-                field.setCustomValidity('')//field is now valid
-                field.classList.remove('invalid')
-            } else {
-            field.setCustomValidity('invalid')//field is now invalid
-            field.classList.add('invalid')
-        }
-    }, typingTimerInterval);
+    if (testValues(field.value, fieldsPatterns[fieldString][1]) 
+        || (fieldString = "number" && !field.value)){ //becuase number is not manditory
+            field.setCustomValidity('')//field is now valid
+            field.classList.remove('invalid')
+        } else {
+        field.setCustomValidity('invalid')//field is now invalid
+        field.classList.add('invalid')
+    }
+
 };
 
 function displayError (fieldString) {
@@ -71,14 +89,29 @@ function displayError (fieldString) {
     const errorSpan = document.querySelector(`#${field.id} ~ span`);
     const label = document.querySelector(`#${field.id} ~ label`);
     clearTimeout(typingTimer2);
-    typingTimer2 = setTimeout(()=>{
-        if (field.validity.valid || !field.value){
-            errorSpan.textContent = " "
-            label.style.color = "#1d9bf0"
-            }
-        else {
-            errorSpan.textContent = fieldsPatterns[fieldString][2]
-            label.style.color = "#b5051a"
+
+    if (field.validity.valid || !field.value){
+        errorSpan.textContent = " "
+        label.style.color = "#1d9bf0"
         }
-    },typingTimerInterval);
+    else {
+        errorSpan.textContent = fieldsPatterns[fieldString][2]
+        label.style.color = "#b5051a"
+    }
+
 };
+
+function labelGray (fieldString) {
+    clearTimeout(typingTimer);
+
+    const field = fieldsPatterns[fieldString][0];
+    const label = document.querySelector(`#${field.id} ~ label`);
+    if (field.validity.valid) label.style.color = "#a3a3a3"
+}
+
+function labelBlue (fieldString) {
+
+    const field = fieldsPatterns[fieldString][0];
+    const label = document.querySelector(`#${field.id} ~ label`);
+    if (field.validity.valid) label.style.color = "#1d9bf0"
+}

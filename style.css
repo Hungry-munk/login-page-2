@@ -134,6 +134,8 @@ input {
     color: inherit;
 }
 
+
+
 input::placeholder {
     position: absolute;
     top: 50%;
@@ -148,6 +150,7 @@ input:focus {
 
 input.invalid {
     border-color: var(--error-red);
+    
 }
 
 label {
@@ -160,7 +163,11 @@ label {
     color: var(--blue);
 }
 
-input:focus ~ label {
+input:focus ~ label{
+    display: inline;
+}
+
+input:not(:placeholder-shown) ~ label {
     display: inline;
 }
 
