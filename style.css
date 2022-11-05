@@ -5,7 +5,7 @@
 }
 
 :root {
-    --blue : rgb(29, 155, 240);
+    --blue : #1d9bf0;
     --gray :#a3a3a3 ;
     --background-aqua: #273138;
     --error-red: #b5051a; 
@@ -108,11 +108,13 @@ form {
     flex-direction: column;
 }
 
-.error-message {
+span.error-message {
     position: absolute;
     font-size: 0.75rem;
     top: 75px;
     left: 25px;
+
+    color: var(--error-red);
 }
 
 .password-conformation {
@@ -140,8 +142,12 @@ input::placeholder {
 
 input:focus {
     outline: none;
-    border: 1.9px var(--blue) solid;
+    border-color:var(--blue) ;
     /* background-color: orange; */
+}
+
+input.invalid {
+    border-color: var(--error-red);
 }
 
 label {

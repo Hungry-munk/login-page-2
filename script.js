@@ -56,18 +56,29 @@ function delayedValidationCheck(fieldString) {
     const field = fieldsPatterns[fieldString][0]
     typingTimer = setTimeout(()=>{
         if (testValues(field.value, fieldsPatterns[fieldString][1]) 
-            || (fieldString = "number" && !field.value)) //becuase number is not manditory
-                    field.setCustomValidity('')//field is now valid
-        else field.setCustomValidity('invalid')//field is now invalid
+            || (fieldString = "number" && !field.value)){ //becuase number is not manditory
+                field.setCustomValidity('')//field is now valid
+                field.classList.remove('invalid')
+            } else {
+            field.setCustomValidity('invalid')//field is now invalid
+            field.classList.add('invalid')
+        }
     }, typingTimerInterval);
 };
 
 function displayError (fieldString) {
     const field = fieldsPatterns[fieldString][0];
     const errorSpan = document.querySelector(`#${field.id} ~ span`);
+    const label = document.querySelector(`#${field.id} ~ label`);
     clearTimeout(typingTimer2);
     typingTimer2 = setTimeout(()=>{
-        if (field.validity.valid || !field.value) errorSpan.textContent = " "
-        else errorSpan.textContent = fieldsPatterns[fieldString][2]        
+        if (field.validity.valid || !field.value){
+            errorSpan.textContent = " "
+            label.style.color = "#1d9bf0"
+            }
+        else {
+            errorSpan.textContent = fieldsPatterns[fieldString][2]
+            label.style.color = "#b5051a"
+        }
     },typingTimerInterval);
 };
