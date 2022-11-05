@@ -108,6 +108,11 @@ form {
     flex-direction: column;
 }
 
+.password-conformation {
+    /* will be activated when they enter valid password */
+    display: none;
+}
+
 
 input {
     border: 1.9px var(--gray) solid;
@@ -118,6 +123,12 @@ input {
     font-size: 1rem;
     background-color: black;
     color: inherit;
+}
+
+input::placeholder {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 input:focus {
