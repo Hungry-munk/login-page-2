@@ -56,13 +56,29 @@ numberInput.addEventListener('input', e =>{
 });
 
 
-nameInput.addEventListener("focusout", e =>labelGray(e.target.id))
+nameInput.addEventListener("focusout", e =>{
+    ValidationCheck(e.target.id);
+    displayError(e.target.id)
+    labelGray(e.target.id)
+});
 nameInput.addEventListener("focusin", e =>labelBlue(e.target.id))
-emailInput.addEventListener("focusout", e =>labelGray(e.target.id))
+emailInput.addEventListener("focusout", e =>{
+    ValidationCheck(e.target.id);
+    displayError(e.target.id)
+    labelGray(e.target.id)
+});
 emailInput.addEventListener("focusin", e =>labelBlue(e.target.id))
-numberInput.addEventListener("focusout", e =>labelGray(e.target.id))
+numberInput.addEventListener("focusout", e =>{
+    ValidationCheck(e.target.id);
+    displayError(e.target.id)
+    labelGray(e.target.id)
+});
 numberInput.addEventListener("focusin", e =>labelBlue(e.target.id))
-passwordInput.addEventListener("focusout", e =>labelGray(e.target.id))
+passwordInput.addEventListener("focusout", e =>{
+    ValidationCheck(e.target.id);
+    displayError(e.target.id)
+    labelGray(e.target.id)
+});
 passwordInput.addEventListener("focusin", e =>labelBlue(e.target.id))
 
 
@@ -80,7 +96,7 @@ function ValidationCheck(fieldString) {
         } else {
         field.setCustomValidity('invalid')//field is now invalid
         field.classList.add('invalid')
-    }
+    };
 
 };
 
@@ -98,19 +114,15 @@ function displayError (fieldString) {
         errorSpan.textContent = fieldsPatterns[fieldString][2]
         label.style.color = "#b5051a"
     }
-
 };
 
 function labelGray (fieldString) {
-    clearTimeout(typingTimer);
-
     const field = fieldsPatterns[fieldString][0];
     const label = document.querySelector(`#${field.id} ~ label`);
     if (field.validity.valid) label.style.color = "#a3a3a3"
 }
 
 function labelBlue (fieldString) {
-
     const field = fieldsPatterns[fieldString][0];
     const label = document.querySelector(`#${field.id} ~ label`);
     if (field.validity.valid) label.style.color = "#1d9bf0"
