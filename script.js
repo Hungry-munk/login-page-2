@@ -4,7 +4,7 @@ const numberInput = document.getElementById('number');
 const passwordInput = document.getElementById('password');
 const passwordConformationInput = document.getElementById('password-conformation');
 
-const submitButton = document.querySelector('.button-container')
+const submitButton = document.querySelector('.create-button')
 
 const NAME_REGEX = new RegExp(/^[A-Z]([a-z]+)?$/)
 const EMAIL_REGEX = new RegExp(/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+\.com$/)
@@ -16,6 +16,8 @@ const emailErrorMessage = "Invalid email"
 const numberErrorMessage = "Must start with 04 and be 10 digits total"
 const passwordErrorMessage = "Must have a digit, special character and be between 8 - 25 characters"
 const passwordConformationErrorMessage = "Passwords are not the same"
+
+const form = document.querySelector('form')
 
  const fieldsPatterns = {
     name: [nameInput,NAME_REGEX, nameErrorMessage],
@@ -59,9 +61,16 @@ passwordInput.addEventListener('input', e =>{
     clearTimeout(tpyingTimerPassword)
     tpyingTimerPassword = setTimeout(()=>{
         toggleConfirmPassword()
-    },3000)
+    },2000)
 });
 
+form.addEventListener('change',()=>{
+    if (form.checkValidity()) {
+        submitButton.removeAttribute('disabled')
+    } else {
+        submitButton.setAttribute('disabled','disabled')
+    }
+});
 
 nameInput.addEventListener("focusout", e =>{
     ValidationCheck(e.target.id);
@@ -100,6 +109,8 @@ passwordConformationInput.addEventListener('input', e=>{
 })
 passwordConformationInput.addEventListener('focusout',e=>{
     toggleConfirmPassword()
+    clearTimeout(tpyingTimerPassword)
+    clearTimeout(tpyingTimerPassword2)
     labelGray(e.target.id)
 })
 passwordConformationInput.addEventListener("focusin", e =>labelBlue(e.target.id))
@@ -162,7 +173,7 @@ function toggleConfirmPassword () {
 
 function checkPasswords () {
     return passwordConformationInput.value === passwordInput.value
-}
+};
 
 function validateConformationPasword () {
     const conformationErrorMessage = document.querySelector(
@@ -182,5 +193,6 @@ function validateConformationPasword () {
         passwordConformationInput.classList.add('invalid')
         label.style.color = "#b5051a"
     }
-}
+};
+
 
