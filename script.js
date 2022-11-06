@@ -11,22 +11,25 @@ const EMAIL_REGEX = new RegExp(/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]
 const MELBOURNE_PHONE_REGEX = new RegExp (/^(04[0-9]{8}){1}$/)
 const PASSWORD_REGEX = new RegExp(/^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%-_^&*\.])[a-zA-Z0-9!@#$%-_^&*\.]{8,25}$/)
 
-const nameErrorMessage = "name must start with a capital and then lowercase";
-const emailErrorMessage = "invalid email"
+const nameErrorMessage = "Name must start with a capital and then lowercase";
+const emailErrorMessage = "Invalid email"
 const numberErrorMessage = "Must start with 04 and be 10 digits total"
-const passwordErrorMessage = "must have a digit, special character and be between 8 - 25 characters"
+const passwordErrorMessage = "Must have a digit, special character and be between 8 - 25 characters"
+const passwordConformationErrorMessage = "Passwords are not the same"
 
  const fieldsPatterns = {
     name: [nameInput,NAME_REGEX, nameErrorMessage],
     email: [emailInput, EMAIL_REGEX, emailErrorMessage],
     number: [number, MELBOURNE_PHONE_REGEX, numberErrorMessage],
     password: [passwordInput, PASSWORD_REGEX, passwordErrorMessage],
-    "password-conformation": [passwordConformationInput, PASSWORD_REGEX],
+    "password-conformation": [passwordConformationInput, PASSWORD_REGEX,passwordConformationErrorMessage],
 }
 
+let passwordConformationVisibility = false
 let typingTimer;
 let typingTimer2;
 let tpyingTimerPassword;
+let tpyingTimerPassword2;
 let typingTimerInterval = 1000
 
 nameInput.addEventListener('input', e =>{
@@ -89,6 +92,19 @@ passwordInput.addEventListener("focusout", e =>{
 passwordInput.addEventListener("focusin", e =>labelBlue(e.target.id))
 
 
+passwordConformationInput.addEventListener('input', e=>{
+    clearTimeout(tpyingTimerPassword2)
+    tpyingTimerPassword2 = setTimeout(()=>{
+        validateConformationPasword()
+    },typingTimerInterval)
+})
+passwordConformationInput.addEventListener('focusout',e=>{
+    toggleConfirmPassword()
+    labelGray(e.target.id)
+})
+passwordConformationInput.addEventListener("focusin", e =>labelBlue(e.target.id))
+
+
 function testValues (fieldValue,regex) {
     return regex.test(fieldValue)
 };
@@ -137,8 +153,34 @@ function labelBlue (fieldString) {
 function toggleConfirmPassword () {
     if (passwordInput.validity.valid) {
         passwordConformationInput.parentElement.style.display = 'block'
+        passwordConformationVisibility = true;
     } else{
         passwordConformationInput.parentElement.style.display = 'none'
+        passwordConformationVisibility = false;
+    }
+};
+
+function checkPasswords () {
+    return passwordConformationInput.value === passwordInput.value
+}
+
+function validateConformationPasword () {
+    const conformationErrorMessage = document.querySelector(
+        `#${passwordConformationInput.id} ~ span`);
+    const label = document.querySelector(
+        `#${passwordConformationInput.id} ~ label`);
+    
+    if (checkPasswords()) {
+        passwordConformationInput.setCustomValidity('')
+        conformationErrorMessage.textContent = " "
+        passwordConformationInput.classList.remove('invalid')
+        label.style.color = "#1d9bf0"
+
+    } else {
+        passwordConformationInput.setCustomValidity('invalid')
+        conformationErrorMessage.textContent = passwordConformationErrorMessage
+        passwordConformationInput.classList.add('invalid')
+        label.style.color = "#b5051a"
     }
 }
 
